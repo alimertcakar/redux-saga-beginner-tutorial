@@ -1,8 +1,15 @@
 import React from "react";
-import Counter from "./features/counter/Counter";
+import Events from "./features/events/Events";
+import useGetAllInitialData from "./features/events/useEvents";
 
 function App() {
-  return <Counter />;
+  const { refetchEvents } = useGetAllInitialData();
+  return (
+    <div>
+      <button onClick={refetchEvents}>Refetch Events</button>
+      <Events />
+    </div>
+  );
 }
 
 export default App;

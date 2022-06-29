@@ -1,11 +1,21 @@
-import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import {
+  all,
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  delay,
+  debounce,
+  throttle,
+} from "redux-saga/effects";
 import { fetchEvents } from "./eventsApi";
 
-function* fetchUser(action: any) {
+function* _fetchEvents(action: any) {
+  console.log("EVENTS FETCHED");
   try {
     //@ts-ignore
-    const user = yield call(fetchEvents);
-    yield put({ type: "EVENTS_FETCH_SUCCEEDED", value: user });
+    const eventsData = yield call(fetchEvents);
+    yield put({ type: "events/setEvents", payload: eventsData });
   } catch (e) {
     yield put({
       type: "EVENTS_FETCH_FAILED",
@@ -14,8 +24,13 @@ function* fetchUser(action: any) {
   }
 }
 
+function* logAliMert() {
+  yield console.info("alimert");
+}
+
 function* eventsSaga() {
-  yield takeEvery("EVENTS_FETCH_REQUESTED", fetchUser);
+  yield logAliMert();
+  yield throttle(1000, "EVENTS_FETCH_REQUESTED", _fetchEvents);
 }
 
 export default eventsSaga;

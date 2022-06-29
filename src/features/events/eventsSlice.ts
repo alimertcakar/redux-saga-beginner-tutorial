@@ -21,6 +21,8 @@ export const eventsSlice = createSlice({
   },
 });
 
+export const { setEvents } = eventsSlice.actions;
+
 export const eventsSelector = (state: RootState) => state.events.events;
 
 export default eventsSlice.reducer;
